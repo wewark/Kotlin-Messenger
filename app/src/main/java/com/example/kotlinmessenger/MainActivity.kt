@@ -17,33 +17,41 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         register_button_register.setOnClickListener {
-            val email = email_edittext_register.text.toString()
-            val password = password_edittext_register.text.toString()
-
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-                Log.d("MainActivity", "Email: $email")
-            Log.d("MainActivity", "Password: $password")
-
-            auth = FirebaseAuth.getInstance()
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (!task.isSuccessful) return@addOnCompleteListener
-
-                    // else if successful
-                    Log.d("Main", "Succussfully created user with uid: ${task.result?.user?.uid}")
-                }
-
-            already_have_account_text_view.setOnClickListener {
-                Log.d("MainActivity", "Login Activity")
-
-                // Launch login activity
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-            }
+            performRegister()
         }
+
+        already_have_account_text_view.setOnClickListener {
+            Log.d("MainActivity", "Login Activity")
+
+            // Launch login activity
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun performRegister() {
+        val email = email_edittext_register.text.toString()
+        val password = password_edittext_register.text.toString()
+
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        Log.d("MainActivity", "Email: $email")
+        Log.d("MainActivity", "Password: $password")
+
+        FirebaseAuth.getInstance()
+            .createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (!task.isSuccessful) return@addOnCompleteListener
+
+                // else if successful
+                Log.d("Main", "Successfully created user with uid: ${task.result?.user?.uid}")
+            }
+            .addOnFailureListener {
+                Log.d("Main", "Failed to create user: ${it.message}")
+                Toast.makeText(this, "Failed to create user: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }
