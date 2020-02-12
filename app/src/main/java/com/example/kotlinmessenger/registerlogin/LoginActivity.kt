@@ -1,10 +1,12 @@
 package com.example.kotlinmessenger.registerlogin
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinmessenger.R
+import com.example.kotlinmessenger.messages.LatestMessagesActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -19,6 +21,8 @@ class LoginActivity : AppCompatActivity() {
             val email = email_edittext_login.text.toString()
             val password = password_edittext_login.text.toString()
 
+
+
             Log.d("Login", "Attempt login with email/pw: $email/pw")
 
             FirebaseAuth.getInstance()
@@ -28,6 +32,9 @@ class LoginActivity : AppCompatActivity() {
 
                     // else if successful
                     Log.d("Main", "Successfully signed in user with uid: ${it.result?.user?.uid}")
+                    val intent = Intent(this, LatestMessagesActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
                 .addOnFailureListener {
                     Log.d("Main", "Failed to sign in user: ${it.message}")

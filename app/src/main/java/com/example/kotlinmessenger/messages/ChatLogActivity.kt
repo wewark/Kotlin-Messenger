@@ -52,15 +52,15 @@ class ChatLogActivity : AppCompatActivity() {
 
         ref.addChildEventListener(object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
 
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -76,7 +76,7 @@ class ChatLogActivity : AppCompatActivity() {
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
 
         })
@@ -86,6 +86,7 @@ class ChatLogActivity : AppCompatActivity() {
         val fromId = LatestMessagesActivity.currentUser?.uid
         val toId = toUser?.uid
         val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+        val toRef = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
 
         val text = edittext_chat_log.text.toString()
 
@@ -99,7 +100,10 @@ class ChatLogActivity : AppCompatActivity() {
         ref.setValue(chatMessage)
             .addOnSuccessListener {
                 Log.d(TAG, "Saved message: ${ref.key}")
+                edittext_chat_log.text.clear()
+                recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
             }
+        toRef.setValue(chatMessage)
 
 
     }
