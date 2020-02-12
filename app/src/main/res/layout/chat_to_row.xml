@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textview_to_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -18,16 +18,18 @@
         android:maxWidth="240dp"
         android:padding="16dp"
         android:text="Message dfg dfg df gd fg dsfg df ger g erg erg er ger g rge"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/imageview_to_row"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageview_to_row"
         android:layout_width="59dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        app:civ_border_color="@android:color/black"
+        app:civ_border_width="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
